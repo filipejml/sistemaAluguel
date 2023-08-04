@@ -3,6 +3,8 @@ package SistemaAluguel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Pedido {
     private int codigoPedido;
@@ -10,18 +12,18 @@ public class Pedido {
     private int codigoFuncionario;
     private ArrayList<Item> itens;
     private double valorPedido;
-    private Date dataPedido;
-    private Date dataDevolucao;
+    private String dataPedido;
+    private String dataDevolucao;
     private int prazo;
 
-    public Pedido(int codigoPedido, int codigoCliente, int codigoFuncionario, ArrayList<Item> itens, double valorPedido, Date dataPedido, Date dataDevolucao, int prazo) {
+    public Pedido(int codigoPedido, int codigoCliente, int codigoFuncionario, ArrayList<Item> itens, double valorPedido, String dataPedido, String dataDevolucao, int prazo) {
         this.codigoPedido = codigoPedido;
         this.codigoFuncionario = codigoFuncionario;
         this.itens = itens;
         this.valorPedido = calculaTotal(itens);
         this.dataPedido = dataPedido;
-        this.dataDevolucao = dataDevolucao;
         this.prazo = prazo;
+        this.dataDevolucao = setDataDevolucao(this.dataPedido, this.prazo);
     }
 
     public double calculaTotal(ArrayList<Item> itens){
@@ -32,6 +34,7 @@ public class Pedido {
         }
         return total;
     }
+
     public int getCodigoPedido() {
         return codigoPedido;
     }
@@ -64,20 +67,26 @@ public class Pedido {
         this.valorPedido = valorPedido;
     }
 
-    public Date getDataPedido() {
+    public String getDataPedido() {
         return dataPedido;
     }
 
-    public void setDataPedido(Date dataPedido) {
+    public void setDataPedido(String dataPedido) {
         this.dataPedido = dataPedido;
     }
 
-    public Date getDataDevolucao() {
+    public String getDataDevolucao() {
         return dataDevolucao;
     }
 
-    public void setDataDevolucao(Date dataDevolucao) {
-        this.dataDevolucao = dataDevolucao;
+    public String setDataDevolucao(String dataPedido, int prazo) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime data = LocalDateTime.parse(dataPedido, formatter);
+        data = data.plusDays(prazo);
+        String dataDevolucao = data.format(formatter);
+        return dataDevolucao;
+
     }
 
     public int getPrazo() {

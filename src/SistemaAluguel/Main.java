@@ -1,8 +1,11 @@
 package SistemaAluguel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,7 +43,12 @@ public class Main {
             }
         }
 
-        Pedido Aluguel1 = new Pedido(1,1, 1, listaItens, 0, null, null, 0);
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String dataPedido = dataHoraAtual.format(formatter);
+        Pedido Aluguel1 = new Pedido(1,1, 1, listaItens, 0, dataPedido, null, 5);
         System.out.println("Valor aluguel: " + Aluguel1.getValorPedido());
+        System.out.println("Data pedido: " + Aluguel1.getDataPedido());
+        System.out.println("Data devolucao: " + Aluguel1.getDataDevolucao());
     }
 }
